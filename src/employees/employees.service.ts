@@ -1,9 +1,13 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Employee } from './employee.entity';
+
 
 @Injectable()
 export class EmployeesService {
 
-  getEmployees() {
+  /*getEmployees() {
     return [
       {
         id: 1,
@@ -16,5 +20,14 @@ export class EmployeesService {
         department: 'HR',
       },
     ];
-  }
+  }*/
+  constructor(
+    @InjectRepository(Employee)
+    private employeeRepo: Repository<Employee>,
+  ) {}
+
+  async getEmployees() {
+    return this.employeeRepo.find();
+  }  
+  
 }
